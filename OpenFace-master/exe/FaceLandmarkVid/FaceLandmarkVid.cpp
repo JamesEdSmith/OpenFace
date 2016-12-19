@@ -109,21 +109,47 @@ vector<string> get_arguments(int argc, char **argv)
 // Some globals for tracking timing information for visualisation
 double fps_tracker = -1.0;
 int64 t0 = 0;
+cv::Mat blankImage(480, 640, CV_8UC3, cv::Scalar(0, 255, 0));
+cv::Mat prevImage(480, 640, CV_8UC3, cv::Scalar(0, 255, 0));
+int chosenMark = 0;
 
 // Visualising the results
-void visualise_tracking(cv::Mat& captured_image, cv::Mat_<float>& depth_image, const LandmarkDetector::CLNF& face_model, const LandmarkDetector::FaceModelParameters& det_parameters, cv::Point3f gazeDirection0, cv::Point3f gazeDirection1, int frame_count, double fx, double fy, double cx, double cy)
+void visualise_tracking(cv::Mat& captured_image, cv::Mat_<float>& depth_image, const LandmarkDetector::CLNF& face_model, const LandmarkDetector::FaceModelParameters& det_parameters, cv::Point3f gazeDirection0, cv::Point3f gazeDirection1, int64 tick_count, double fx, double fy, double cx, double cy)
 {
+	int channels = blankImage.channels();
 
+	int nRows = blankImage.rows;
+	int nCols = blankImage.cols * channels;
+
+	if (blankImage.isContinuous())
+	{
+		nCols *= nRows;
+		nRows = 1;
+	}
+
+	int i, j;
+	uchar* p;
+	for (i = 0; i < nRows; ++i)
+	{
+		p = blankImage.ptr<uchar>(i);
+		for (j = 0; j < nCols; ++j)
+		{
+			if(j%3 == 1)
+				p[j] = 255;
+			else
+				p[j] = 0;
+		}
+	}
 	// Drawing the facial landmarks on the face and the bounding box around it if tracking is successful and initialised
 	double detection_certainty = face_model.detection_certainty;
 	bool detection_success = face_model.detection_success;
 
-	double visualisation_boundary = 0.2;
+	double visualisation_boundary = 0.75;
 
 	// Only draw if the reliability is reasonable, the value is slightly ad-hoc
 	if (detection_certainty < visualisation_boundary)
 	{
-		LandmarkDetector::Draw(captured_image, face_model);
+		LandmarkDetector::Draw(blankImage, face_model, tick_count, chosenMark);
 
 		double vis_certainty = detection_certainty;
 		if (vis_certainty > 1)
@@ -133,46 +159,39 @@ void visualise_tracking(cv::Mat& captured_image, cv::Mat_<float>& depth_image, c
 
 		vis_certainty = (vis_certainty + 1) / (visualisation_boundary + 1);
 
-		// A rough heuristic for box around the face width
-		int thickness = (int)std::ceil(2.0* ((double)captured_image.cols) / 640.0);
-
-		cv::Vec6d pose_estimate_to_draw = LandmarkDetector::GetCorrectedPoseWorld(face_model, fx, fy, cx, cy);
-
-		// Draw it in reddish if uncertain, blueish if certain
-		LandmarkDetector::DrawBox(captured_image, pose_estimate_to_draw, cv::Scalar((1 - vis_certainty)*255.0, 0, vis_certainty * 255), thickness, fx, fy, cx, cy);
-		
-		if (det_parameters.track_gaze && detection_success && face_model.eye_model)
+		if (!det_parameters.quiet_mode)
 		{
-			FaceAnalysis::DrawGaze(captured_image, face_model, gazeDirection0, gazeDirection1, fx, fy, cx, cy);
+
+			char fpsC[255];
+			std::sprintf(fpsC, "%d", chosenMark);
+			string fpsSt("mark: ");
+			fpsSt += fpsC;
+			cv::putText(blankImage, fpsSt, cv::Point(10, 20), CV_FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255, 0, 0));
+
+			cv::namedWindow("tracking_result", 1);
+			cv::imshow("tracking_result", blankImage);
+
+			if (!depth_image.empty())
+			{
+				// Division needed for visualisation purposes
+				imshow("depth", depth_image / 2000.0);
+			}
 		}
+		blankImage.copyTo(prevImage);
 	}
-
-	// Work out the framerate
-	if (frame_count % 10 == 0)
+	else
 	{
-		double t1 = cv::getTickCount();
-		fps_tracker = 10.0 / (double(t1 - t0) / cv::getTickFrequency());
-		t0 = t1;
-	}
-
-	// Write out the framerate on the image before displaying it
-	char fpsC[255];
-	std::sprintf(fpsC, "%d", (int)fps_tracker);
-	string fpsSt("FPS:");
-	fpsSt += fpsC;
-	cv::putText(captured_image, fpsSt, cv::Point(10, 20), CV_FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255, 0, 0));
-
-	if (!det_parameters.quiet_mode)
-	{
-		cv::namedWindow("tracking_result", 1);
-		cv::imshow("tracking_result", captured_image);
-
-		if (!depth_image.empty())
+		if (!det_parameters.quiet_mode)
 		{
-			// Division needed for visualisation purposes
-			imshow("depth", depth_image / 2000.0);
-		}
+			cv::namedWindow("tracking_result", 1);
+			cv::imshow("tracking_result", prevImage);
 
+			if (!depth_image.empty())
+			{
+				// Division needed for visualisation purposes
+				imshow("depth", depth_image / 2000.0);
+			}
+		}
 	}
 }
 
@@ -274,7 +293,9 @@ int main (int argc, char **argv)
 		else INFO_STREAM( "Device or file opened");
 
 		cv::Mat captured_image;
-		video_capture >> captured_image;		
+		video_capture >> captured_image;
+
+		//cout << "cols: " << captured_image.cols << "rows: " << captured_image.rows << "\n";
 
 		// If optical centers are not defined just use center of image
 		if (cx_undefined)
@@ -282,7 +303,7 @@ int main (int argc, char **argv)
 			cx = captured_image.cols / 2.0f;
 			cy = captured_image.rows / 2.0f;
 		}
-		// Use a rough guess-timate of focal length
+		// Use a rough guess-timate of focal qlength
 		if (fx_undefined)
 		{
 			fx = 500 * (captured_image.cols / 640.0);
@@ -367,7 +388,7 @@ int main (int argc, char **argv)
 				FaceAnalysis::EstimateGaze(clnf_model, gazeDirection1, fx, fy, cx, cy, false);
 			}
 
-			visualise_tracking(captured_image, depth_image, clnf_model, det_parameters, gazeDirection0, gazeDirection1, frame_count, fx, fy, cx, cy);
+			visualise_tracking(captured_image, depth_image, clnf_model, det_parameters, gazeDirection0, gazeDirection1, cv::getTickCount(), fx, fy, cx, cy);
 			
 			// output the tracked video
 			if (!output_video_files.empty())
@@ -390,6 +411,14 @@ int main (int argc, char **argv)
 			else if(character_press=='q')
 			{
 				return(0);
+			}
+			else if (character_press == 'a')
+			{
+				chosenMark--;
+			}
+			else if (character_press == 'd')
+			{
+				chosenMark++;
 			}
 
 			// Update the frame count

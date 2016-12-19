@@ -117,9 +117,9 @@ namespace LandmarkDetector
 	vector<cv::Point2d> CalculateLandmarks(CLNF& clnf_model);
 	void DrawLandmarks(cv::Mat img, vector<cv::Point> landmarks);
 
-	void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& visibilities);
+	void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& visibilities, int64 tick_count, int chosenMark);
 	void Draw(cv::Mat img, const cv::Mat_<double>& shape2D);
-	void Draw(cv::Mat img, const CLNF& clnf_model);
+	void Draw(cv::Mat img, const CLNF& clnf_model, int64 tick_count, int chosenMark);
 
 
 	//===========================================================================

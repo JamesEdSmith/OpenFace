@@ -1070,18 +1070,107 @@ vector<cv::Point2d> CalculateLandmarks(CLNF& clnf_model)
 	return CalculateLandmarks(clnf_model.detected_landmarks, clnf_model.patch_experts.visibilities[0][idx]);
 
 }
-
+cv::Scalar eye_color(0,0,255);
 // Drawing landmarks on a face image
-void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& visibilities)
+void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& visibilities, int64 tick_count, int chosenMark)
 {
+
 	int n = shape2D.rows/2;
-	
+	cv::Point points[5];
+	int pointIndex = 0;
+
+	//set flashing color for eyes
+	if ((tick_count / 1000) % 2 == 0)
+	{
+		eye_color.val[0] = 255;
+		eye_color.val[1] = 0;
+		eye_color.val[2] = 0;
+	}
+	else
+	{
+		eye_color.val[0] = 255;
+		eye_color.val[1] = 128;
+		eye_color.val[2] = 128;
+	}
 
 	// Drawing feature points
 	if(n >= 66)
 	{
+		//find angle of face
+		pointIndex = 0;
+		double angle = atan2((shape2D.at<double>(24 + n) - shape2D.at<double>(19 + n)), (shape2D.at<double>(24) - shape2D.at<double>(19)));
+		
+		//nose***************************************************************************************
+		points[0].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+		points[3].x = cvRound((shape2D.at<double>(30) + shape2D.at<double>(33)) / 2.0  * (double)draw_multiplier);
+		points[3].y = (cvRound((shape2D.at<double>(30 + n) + shape2D.at<double>(33 + n)) / 2.0 * (double)draw_multiplier) + cvRound((shape2D.at<double>(30 + n) * (double)draw_multiplier)))/2.0;
+		double a1 = atan2((double)(points[1].y - points[3].y), (double)(points[1].x - points[3].x));
+		double a2 = a1 - angle;
+		double h = (double)(points[1].x - points[3].x) / cos(a1);
+		double adj = h*cos(a2)*0.5;
+		points[2].x = points[3].x + (adj * cos(angle));
+		points[2].y = points[3].y + (adj * sin(angle));
+		a1 = atan2((double)(points[0].y - points[3].y), (double)(points[0].x - points[3].x));
+		a2 = a1 - angle;
+		h = (double)(points[0].x - points[3].x) / cos(a1);
+		adj = h*cos(a2)*0.5;
+		points[4].x = points[3].x + (adj * cos(angle));
+		points[4].y = points[3].y + (adj * sin(angle));
+
+		cv::fillConvexPoly(img, points, 5, cv::Scalar(75, 75, 75), CV_AA, draw_shiftbits);
+		cv::Point points1[4];
+		points1[0].x = points[2].x;
+		points1[0].y = points[2].y;
+		points1[1].x = points[4].x;
+		points1[1].y = points[4].y;
+		points1[2].x = cvRound(shape2D.at<double>(21) * (double)draw_multiplier);
+		points1[2].y = cvRound(shape2D.at<double>(21 + n) * (double)draw_multiplier);
+		points1[3].x = cvRound(shape2D.at<double>(22) * (double)draw_multiplier);
+		points1[3].y = cvRound(shape2D.at<double>(22 + n) * (double)draw_multiplier);
+
+		points[0].x = points[4].x;
+		points[0].y = points[4].y;
+		points[1].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(21) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(21 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = points1[0].x;
+		points[0].y = points1[0].y;
+		points[1].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(205, 205, 205), CV_AA, draw_shiftbits);
+
+		points[0].x = points1[1].x;
+		points[0].y = points1[1].y;
+		points[1].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(120, 120, 120), CV_AA, draw_shiftbits);
+
+		points[0].x = points1[0].x;
+		points[0].y = points1[0].y;
+		points[1].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(22) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(22 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(245, 245, 245), CV_AA, draw_shiftbits);
+
+		cv::fillConvexPoly(img, points1, 4, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
+
 		for( int i = 0; i < n; ++i)
-		{		
+		{
 			if(visibilities.at<int>(i))
 			{
 				cv::Point featurePoint(cvRound(shape2D.at<double>(i) * (double)draw_multiplier), cvRound(shape2D.at<double>(i + n) * (double)draw_multiplier));
@@ -1090,14 +1179,21 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& vis
 				int thickness = (int)std::ceil(3.0* ((double)img.cols) / 640.0);
 				int thickness_2 = (int)std::ceil(1.0* ((double)img.cols) / 640.0);
 
-				cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(0, 0, 255), thickness, CV_AA, draw_shiftbits);
-				cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(255, 0, 0), thickness_2, CV_AA, draw_shiftbits);
-
+				if (i == chosenMark)
+				{
+					cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(255, 0, 0), thickness, CV_AA, draw_shiftbits);
+					cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(255, 0, 0), thickness_2, CV_AA, draw_shiftbits);
+				}
+				else {
+					cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(0, 0, 255), thickness, CV_AA, draw_shiftbits);
+					cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(0, 0, 255), thickness_2, CV_AA, draw_shiftbits);
+				}
 			}
 		}
 	}
 	else if(n == 28) // drawing eyes
 	{
+		pointIndex = 0;
 		for( int i = 0; i < n; ++i)
 		{		
 			cv::Point featurePoint(cvRound(shape2D.at<double>(i) * (double)draw_multiplier), cvRound(shape2D.at<double>(i + n) * (double)draw_multiplier));
@@ -1106,22 +1202,12 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& vis
 			int thickness = 1.0;
 			int thickness_2 = 1.0;
 
-			int next_point = i + 1;
-			if(i == 7)
-				next_point = 0;
-			if(i == 19)
-				next_point = 8;
-			if(i == 27)
-				next_point = 20;
-
-			cv::Point nextFeaturePoint(cvRound(shape2D.at<double>(next_point) * (double)draw_multiplier), cvRound(shape2D.at<double>(next_point + n) * (double)draw_multiplier));
-			if( i < 8 || i > 19)
-				cv::line(img, featurePoint, nextFeaturePoint, cv::Scalar(255, 0, 0), thickness_2, CV_AA, draw_shiftbits);
-			else
-				cv::line(img, featurePoint, nextFeaturePoint, cv::Scalar(0, 0, 255), thickness_2, CV_AA, draw_shiftbits);
-
-
+			if (i == 8 || i ==11 || i ==14 || i == 17)
+			{
+				points[pointIndex++] = featurePoint;
+			}
 		}
+		cv::fillConvexPoly(img, points, 4, eye_color, CV_AA, draw_shiftbits);
 	}
 	else if(n == 6)
 	{
@@ -1181,22 +1267,22 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D)
 }
 
 // Drawing detected landmarks on a face image
-void Draw(cv::Mat img, const CLNF& clnf_model)
+void Draw(cv::Mat img, const CLNF& clnf_model, int64 tick_count, int chosenMark)
 {
 
 	int idx = clnf_model.patch_experts.GetViewIdx(clnf_model.params_global, 0);
 
-	// Because we only draw visible points, need to find which points patch experts consider visible at a certain orientation
-	Draw(img, clnf_model.detected_landmarks, clnf_model.patch_experts.visibilities[0][idx]);
-
 	// If the model has hierarchical updates draw those too
-	for(size_t i = 0; i < clnf_model.hierarchical_models.size(); ++i)
+	for (size_t i = 0; i < clnf_model.hierarchical_models.size(); ++i)
 	{
-		if(clnf_model.hierarchical_models[i].pdm.NumberOfPoints() != clnf_model.hierarchical_mapping[i].size())
+		if (clnf_model.hierarchical_models[i].pdm.NumberOfPoints() != clnf_model.hierarchical_mapping[i].size())
 		{
-			Draw(img, clnf_model.hierarchical_models[i]);
+			Draw(img, clnf_model.hierarchical_models[i], tick_count, chosenMark);
 		}
 	}
+
+	// Because we only draw visible points, need to find which points patch experts consider visible at a certain orientation
+	Draw(img, clnf_model.detected_landmarks, clnf_model.patch_experts.visibilities[0][idx], tick_count, chosenMark);
 }
 
 void DrawLandmarks(cv::Mat img, vector<cv::Point> landmarks)
