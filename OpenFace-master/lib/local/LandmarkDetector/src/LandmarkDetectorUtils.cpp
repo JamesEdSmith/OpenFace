@@ -1099,6 +1099,296 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& vis
 		//find angle of face
 		pointIndex = 0;
 		double angle = atan2((shape2D.at<double>(24 + n) - shape2D.at<double>(19 + n)), (shape2D.at<double>(24) - shape2D.at<double>(19)));
+
+		//cheeks***************************************************************************************
+		points[0].x = cvRound(shape2D.at<double>(4) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(4 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(7) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(7 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(75, 75, 75), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(9) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(9 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(12) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(12 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(1) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(1 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(4) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(4 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(120, 120, 120), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(12) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(12 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(15) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(15 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(205, 205, 205), CV_AA, draw_shiftbits);
+
+		points[0].x = ((((double)cvRound(shape2D.at<double>(0) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(1) * (double)draw_multiplier))/2.0) + (double)cvRound(shape2D.at<double>(28) * (double)draw_multiplier))/2.0;
+		points[0].y = ((((double)cvRound(shape2D.at<double>(0 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(1 + n) * (double)draw_multiplier)) / 2.0) + (double)cvRound(shape2D.at<double>(28+n) * (double)draw_multiplier)) / 2.0;
+		points[1].x = cvRound(shape2D.at<double>(1) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(1 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(36) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(36 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(0) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(0 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(1) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(1 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(120, 120, 120), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(205, 205, 205), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(36) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(36 + n) * (double)draw_multiplier);
+		points[2].x = (((double)cvRound(shape2D.at<double>(40) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(41) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(40 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(41 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(75, 75, 75), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+		points[2].x = (((double)cvRound(shape2D.at<double>(40) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(41) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(40 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(41 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(36) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(36 + n) * (double)draw_multiplier);
+		points[1].x = (((double)cvRound(shape2D.at<double>(37) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(38) * (double)draw_multiplier)) / 2.0) + 200 * cos(angle - M_PI_2);
+		points[1].y = (((double)cvRound(shape2D.at<double>(37 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(38 + n) * (double)draw_multiplier)) / 2.0) + 200 * sin(angle - M_PI_2);
+		points[2].x = (((double)cvRound(shape2D.at<double>(37) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(38) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(37 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(38 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(250, 250, 250), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(39) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(39 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(21) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(21 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(36) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(36 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(18) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(18 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(0) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(0 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(135, 135, 135), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(18) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(18 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(21) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(21 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(19) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(19 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(170, 170, 170), CV_AA, draw_shiftbits);
+
+		points[0].x = ((((double)cvRound(shape2D.at<double>(15) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(16) * (double)draw_multiplier)) / 2.0) + (double)cvRound(shape2D.at<double>(28) * (double)draw_multiplier)) / 2.0;
+		points[0].y = ((((double)cvRound(shape2D.at<double>(15 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(16 + n) * (double)draw_multiplier)) / 2.0) + (double)cvRound(shape2D.at<double>(28 + n) * (double)draw_multiplier)) / 2.0;
+		points[1].x = cvRound(shape2D.at<double>(15) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(15 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(245, 245, 245), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(45) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(45 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(16) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(16 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(15) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(15 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
+		
+		points[1].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(215, 215, 215), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+		points[2].x = (((double)cvRound(shape2D.at<double>(46) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(47) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(46 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(47 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(75, 75, 75), CV_AA, draw_shiftbits);
+
+		points[1].x = cvRound(shape2D.at<double>(45) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(45 + n) * (double)draw_multiplier);
+		points[2].x = (((double)cvRound(shape2D.at<double>(46) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(47) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(46 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(47 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+		points[1].x = (((double)cvRound(shape2D.at<double>(43) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(44) * (double)draw_multiplier)) / 2.0) + 200 * cos(angle - M_PI_2) ;
+		points[1].y = (((double)cvRound(shape2D.at<double>(43 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(44 + n) * (double)draw_multiplier)) / 2.0) + 200 * sin(angle - M_PI_2);
+		points[2].x = (((double)cvRound(shape2D.at<double>(43) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(44) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(43 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(44 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(45) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(45 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(250, 250, 250), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(42) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(42 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(22) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(22 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(125, 125, 125), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(45) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(45 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(25) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(25 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(16) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(16 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(215, 215, 215), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(22) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(22 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(25) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(25 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(24) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(24  + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(170, 170, 170), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[1].x = (((double)cvRound(shape2D.at<double>(50) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52) * (double)draw_multiplier)) / 2.0);
+		points[1].y = (((double)cvRound(shape2D.at<double>(50 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52 + n) * (double)draw_multiplier)) / 2.0);
+		points[2].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(120, 120, 120), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+		points[1].x = (((double)cvRound(shape2D.at<double>(50) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52) * (double)draw_multiplier)) / 2.0);
+		points[1].y = (((double)cvRound(shape2D.at<double>(50 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52 + n) * (double)draw_multiplier)) / 2.0);
+		points[2].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(31 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(35) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(35 + n) * (double)draw_multiplier);
+		points[2].x = (((double)cvRound(shape2D.at<double>(50) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52) * (double)draw_multiplier)) / 2.0);
+		points[2].y = (((double)cvRound(shape2D.at<double>(50 + n) * (double)draw_multiplier) + (double)cvRound(shape2D.at<double>(52 + n) * (double)draw_multiplier)) / 2.0);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(160, 160, 160), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(62) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(62 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(75, 75, 75), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(122, 122, 122), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(66) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(66 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(57) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(57 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(245, 245, 245), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(66) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(66 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+		points[3].x = cvRound(shape2D.at<double>(62) * (double)draw_multiplier);
+		points[3].y = cvRound(shape2D.at<double>(62 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 4, cv::Scalar(45, 45, 45), CV_AA, draw_shiftbits);
+
+		//chin***************************************************************************************
+
+		points[0].x = cvRound(shape2D.at<double>(7) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(7 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(48) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(48 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(57) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(57 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(120, 120, 120), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(54) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(54 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(9) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(9 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(57) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(57 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
+
+		points[0].x = cvRound(shape2D.at<double>(57) * (double)draw_multiplier);
+		points[0].y = cvRound(shape2D.at<double>(57 + n) * (double)draw_multiplier);
+		points[1].x = cvRound(shape2D.at<double>(7) * (double)draw_multiplier);
+		points[1].y = cvRound(shape2D.at<double>(7 + n) * (double)draw_multiplier);
+		points[2].x = cvRound(shape2D.at<double>(9) * (double)draw_multiplier);
+		points[2].y = cvRound(shape2D.at<double>(9 + n) * (double)draw_multiplier);
+
+		cv::fillConvexPoly(img, points, 3, cv::Scalar(155, 155, 155), CV_AA, draw_shiftbits);
 		
 		//nose***************************************************************************************
 		points[0].x = cvRound(shape2D.at<double>(31) * (double)draw_multiplier);
@@ -1169,7 +1459,7 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& vis
 
 		cv::fillConvexPoly(img, points1, 4, cv::Scalar(200, 200, 200), CV_AA, draw_shiftbits);
 
-		for( int i = 0; i < n; ++i)
+		/*for( int i = 0; i < n; ++i)
 		{
 			if(visibilities.at<int>(i))
 			{
@@ -1189,7 +1479,7 @@ void Draw(cv::Mat img, const cv::Mat_<double>& shape2D, const cv::Mat_<int>& vis
 					cv::circle(img, featurePoint, 1 * draw_multiplier, cv::Scalar(0, 0, 255), thickness_2, CV_AA, draw_shiftbits);
 				}
 			}
-		}
+		}*/
 	}
 	else if(n == 28) // drawing eyes
 	{
